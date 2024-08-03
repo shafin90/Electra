@@ -19,9 +19,8 @@ const accountController = {
 
             // Create a new customer instance
             const newCustomer = new Account({ firstName, lastName, email, password: hashedPass });
-
-            // Save the new customer
             const newCustomerAdded = await newCustomer.save();
+
 
             // failed to add the new customer to database
             if (!newCustomerAdded) {
@@ -58,4 +57,4 @@ const accountController = {
     }
 }
 
-modulee.exports = { accountController }
+module.exports = { accountController }

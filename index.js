@@ -17,7 +17,7 @@ app.use(express.json()); // To parse JSON request bodies
 connectMongoDB();
 
 // middleware's to connect routers
-app.use("/customer", account)
+app.use("/account", account)
 
 // Basic route
 app.get("/", (req, res) => {
