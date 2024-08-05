@@ -14,7 +14,11 @@ const responseMessages = {
     // add product
     failedToAddProduct: "Failed to add product",
     successfullyAddedProduct: "successfully added product",
-    successMsgToAddProduct: "Successfully added"
+    successMsgToAddProduct: "Successfully added",
+
+    // remove product
+    failedToRemoveProduct: "Failed to remove product",
+    successMsgToRemoveProduct: "Successfully removed"
 }
 
 module.exports = { responseMessages }

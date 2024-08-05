@@ -33,9 +33,9 @@ const productController = {
             const newProductAdded = await newProduct.save();
 
             if (!newProductAdded) {
-                return res.json({ success: false, message: responseMessages.failedToAddProduct})
+                return res.json({ success: false, message: responseMessages.failedToAddProduct })
             }
-            res.json({ success: true, message: responseMessages.successMsgToAddProduct , newProduct: newProductAdded })
+            res.json({ success: true, message: responseMessages.successMsgToAddProduct, newProduct: newProductAdded })
 
 
         } catch (error) {
@@ -44,6 +44,21 @@ const productController = {
                 error,
                 message: responseMessages.failedToAddProduct
             })
+        }
+    },
+    removeProduct: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const removeProduct = await Product.deleteOne({ _id: id });
+
+            if (!removeProduct) {
+                return res.json({ success: false, message: responseMessages.failedToRemoveProduct })
+            }
+
+            res.json({ success: true, message: responseMessages.successMsgToRemoveProduct })
+
+        } catch (error) {
+            res.json({ success: false, message: responseMessages.failedToRemoveProduct })
         }
     }
 }
