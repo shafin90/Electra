@@ -60,6 +60,52 @@ const productController = {
         } catch (error) {
             res.json({ success: false, message: responseMessages.failedToRemoveProduct })
         }
+    },
+    editProduct: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const {
+                productName,
+                currentPrice,
+                previousPrice,
+                ratings,
+                review,
+                description,
+                stockNumber,
+                discount
+            } = req.body;
+
+            const updateProduct = await Product.updateOneById(
+                { _id: id },
+                {
+                    productName,
+                    currentPrice,
+                    previousPrice,
+                    ratings,
+                    review,
+                    description,
+                    stockNumber,
+                    discount
+                },
+                { new: true }
+            )
+
+            if (!updateProduct) {
+                return res.json({
+                    success: false,
+                    message: responseMessages.failedToEditProduct
+                })
+            }
+
+            res.json({
+                success: true,
+                message: responseMessages.successfullMsgToEditProduct,
+                updatedProduct: updateProduct
+            })
+
+        } catch (error) {
+            res.json({ success: false, error, message: responseMessages.failedToEditProduct })
+        }
     }
 }
 
