@@ -22,21 +22,10 @@ const productSchema = new mongoose.Schema({
     stockNumber: {
         type: Number
     },
-    productImg1: {
-        type: String
+    productImgs: {
+        type: Object
     },
-    productImg2: {
-        type: String
-    },
-    productImg3: {
-        type: String
-    },
-    productImg4: {
-        type: String
-    },
-    productImg5: {
-        type: String
-    }
+    
 })
 
 const Product = mongoose.model("Product", productSchema)

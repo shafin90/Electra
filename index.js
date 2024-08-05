@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 
 // all routers--------------------------------
 const account = require("./routers/account")
+const product = require("./routers/product")
 
 // middleware
 app.use(cors())
@@ -18,6 +19,7 @@ connectMongoDB();
 
 // middleware's to connect routers
 app.use("/account", account)
+app.use("/product", product)
 
 // Basic route
 app.get("/", (req, res) => {
