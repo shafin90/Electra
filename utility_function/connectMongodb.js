@@ -1,7 +1,9 @@
 const { default: mongoose } = require("mongoose");
+require('dotenv').config();
+
 
 const connectMongoDB = () => {
-    mongoose.connect("mongodb+srv://ecommerce:ecommerce@cluster0.6oyupqe.mongodb.net/ecommerce", {
+    mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.6oyupqe.mongodb.net/ecommerce`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
@@ -11,7 +13,6 @@ const connectMongoDB = () => {
         .catch(error => {
             console.log(error)
         })
-
 }
 
 module.exports = { connectMongoDB };
