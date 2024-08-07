@@ -6,5 +6,6 @@ const { upload } = require("../utility_function/fileUpload")
 
 router.post("/addProduct", upload.array('productImg', 5), productController.addProduct)
 router.delete("/removeProduct/:id", productController.removeProduct)
+router.update("/editProduct/:id", productController.editProduct)
 
 module.exports = router

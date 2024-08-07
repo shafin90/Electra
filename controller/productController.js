@@ -14,7 +14,8 @@ const productController = {
                 review,
                 description,
                 stockNumber,
-                discount
+                discount,
+                isDiscountAvailable
             } = req.body;
 
             const productImg = [...files];
@@ -28,7 +29,8 @@ const productController = {
                 description,
                 stockNumber,
                 discount,
-                productImg
+                productImg,
+                isDiscountAvailable
             })
             const newProductAdded = await newProduct.save();
 
@@ -72,7 +74,8 @@ const productController = {
                 review,
                 description,
                 stockNumber,
-                discount
+                discount,
+                isDiscountAvailable
             } = req.body;
 
             const updateProduct = await Product.updateOneById(
@@ -85,7 +88,8 @@ const productController = {
                     review,
                     description,
                     stockNumber,
-                    discount
+                    discount,
+                    isDiscountAvailable
                 },
                 { new: true }
             )

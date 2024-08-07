@@ -10,6 +10,9 @@ const productSchema = new mongoose.Schema({
     currentPrice: {
         type: Number
     },
+    isDiscountAvailable: {
+        type: Boolean
+    },
     discount: {
         type: Number
     },
@@ -25,7 +28,7 @@ const productSchema = new mongoose.Schema({
     productImgs: {
         type: Object
     },
-    
+
 })
 
 const Product = mongoose.model("Product", productSchema)
