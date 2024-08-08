@@ -26,7 +26,15 @@ const responseMessages = {
 
     // contact us message
     failedToSendMessage: "Failed to send message",
-    successfullySendMessage: "Message send"
+    successfullySendMessage: "Message send",
+
+    // wishlist
+    addProductToWishList: "Added to wishlist",
+    failedToAddProductToWishList: "Failed to add", 
+    failedToRemoveFromWishList: "Failed to remove",
+    successfullyRemovedFromWishList: "Successfully removed"
+
+
 }
 
 module.exports = { responseMessages }
