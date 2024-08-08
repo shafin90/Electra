@@ -22,7 +22,11 @@ const responseMessages = {
 
     // edit product
     failedToEditProduct: "Failed to edit",
-    successfullMsgToEditProduct: "Successfilly edited"
+    successfullMsgToEditProduct: "Successfilly edited",
+
+    // contact us message
+    failedToSendMessage: "Failed to send message",
+    successfullySendMessage: "Message send"
 }
 
 module.exports = { responseMessages }
