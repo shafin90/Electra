@@ -19,5 +19,7 @@ router.post("/returnProduct", productController.addReturnedProduct)
 router.delete("/removeItemFromReturnProductList", productController.removeReturnedProduct)
 router.get("/getReturnProductList", productController.getReturnedList)
 
+// purchase product
+router.post("/purchase", productController.purchaseProduct)
 
 module.exports = router

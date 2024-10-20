@@ -4,6 +4,9 @@ const { ReturnedProductList } = require("../model/returnedProductListSchema");
 const { getFormattedDate } = require("../utility_function/date");
 const { responseMessages } = require("../utils/responseMessages")
 
+// stripe 
+const stripe = require("stripe")("sk_test_51OY48pCg3UF6njdMIGMex9SQFX49Hl36mb8yI20UV3M5HtIj3meONK8fF2YAaSp98DHENkED2aPt3JuI9Ypd7oXI00qqrB0fF5");
+
 
 const productController = {
     addProduct: async (req, res) => {
