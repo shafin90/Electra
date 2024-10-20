@@ -8,6 +8,7 @@ const responseMessages = {
     loginFailedMessage: "Login failed. Try again.",
     puttingWrongPasswordWhileLogin: "Incorrect password",
 
+
     // jwt
     invalidJWTToken: "No token provided",
 

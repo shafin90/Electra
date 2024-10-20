@@ -28,6 +28,9 @@ const productSchema = new mongoose.Schema({
     productImgs: {
         type: Object
     },
+    date: {
+        type: String
+    }
 
 })
 
