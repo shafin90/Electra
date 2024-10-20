@@ -5,21 +5,22 @@ const { responseMessages } = require("../utils/responseMessages");
 const wishListController = {
     addToWishList: async (req, res) => {
         try {
-            const { productId } = req.body
+            const { productId, userEmail } = req.body;
 
-            // get the product from productList to add that into wishlist
-            const particularProductToAdd = await Product.findOne({ _id: productId });
-
-            // add that product to wishlist
-            const addingProduct = new Product({ ...particularProductToAdd });
-            const productAddedToWishList = await addingProduct.save();
-
-            if (!productAddedToWishList) {
-                return res.json({ success: false, message: responseMessages.failedToAddProductToWishList })
+            const getTheProduct = await Product.findOne({ _id: productId });
+            if (!getTheProduct) {
+                return res.json({ success: false, message: "Product is missing" })
             }
 
-            res.json({ success: true, message: responseMessages.addProductToWishList, addedProduct: productAddedToWishList })
-
+            const updating = await WishList.findOneAndUpdate(
+                { email: userEmail },
+                { $push: { wishlist: getTheProduct } },
+                { upsert: true }
+            )
+            if (!updating) {
+                return res.json({ success: false, message: "Something went wrong" })
+            }
+            res.json({ success: true, message: "Item is added to the wishlist" })
 
         } catch (error) {
             res.json({ success: false, message: responseMessages.failedToAddProductToWishList })
@@ -27,12 +28,18 @@ const wishListController = {
     },
     removeProductFromWishList: async (req, res) => {
         try {
-            const { productId } = req.param;
-            const removed = await WishList.deleteOne({ _id: productId })
+            const { productId, userEmail } = req.param;
+            const removingItem = await WishList.deleteOne({ _id: productId })
 
-            if (!removed) {
-                return res.json({ success: false, message: responseMessages.failedToRemoveFromWishList })
+            const removing = await findOneAndUpdate(
+                { email: email },
+                { $pull: { wishlist: removingItem } },
+                { new: true }
+            )
+            if (!removing) {
+                return res.json({ success: false, message: "something went wrong" })
             }
+
             res.json({ success: true, message: responseMessages.successfullyRemovedFromWishList })
 
         } catch (error) {

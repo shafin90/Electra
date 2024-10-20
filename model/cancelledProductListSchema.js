@@ -4,9 +4,13 @@ const cancelledProductListSchema = new mongoose.Schema({
     email: {
         type: String
     },
-    cancelledProductList: {
-        type: Array
+    productId: {
+        type: String
+    },
+    date: {
+        type: String
     }
+
 })
 
 const CancelledProductList = mongoose.model("CancelledProductList", cancelledProductListSchema)

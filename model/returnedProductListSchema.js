@@ -4,8 +4,11 @@ const returnedProductListSchema = new mongoose.Schema({
     email: {
         type: String
     },
-    returnedProductList: {
-        type: Array
+    productId: {
+        type: String
+    },
+    date: {
+        type: String
     }
 })
 

@@ -1,4 +1,7 @@
-const { Product } = require("../model/productSchema")
+const { CancelledProductList } = require("../model/cancelledProductListSchema");
+const { Product } = require("../model/productSchema");
+const { ReturnedProductList } = require("../model/returnedProductListSchema");
+const { getFormattedDate } = require("../utility_function/date");
 const { responseMessages } = require("../utils/responseMessages")
 
 
@@ -109,6 +112,134 @@ const productController = {
 
         } catch (error) {
             res.json({ success: false, error, message: responseMessages.failedToEditProduct })
+        }
+    },
+    getProductList: async (req, res) => {
+        try {
+            const productList = await Product.find();
+            if (!productList) {
+                return res.json({ success: false, message: "something went wrong" })
+            }
+            res.json({ success: true, message: "List available", productList })
+        } catch (error) {
+            res.json({ success: false, message: "Something went wrong", error })
+        }
+    },
+    // cancel list
+    getCancelList: async (req, res) => {
+        try {
+            const { userEmail } = req.params;
+
+            // Step 1: Get the list of cancelled items by user email
+            const cancelledItems = await CancelledProductList.find({ email: userEmail });
+
+            // Step 2: Extract product IDs from the cancelled items
+            const productIds = cancelledItems.map(item => item.productId);
+
+            // Step 3: Find the products that match the productIds from the CancelledProductList
+            const matchedProducts = await Product.find({ _id: { $in: productIds } });
+
+
+            // Step 5: Return the list of cancelled items with matched product details
+            res.json({ success: true, message: "Cancelled items retrieved successfully", data: matchedProducts });
+        } catch (error) {
+            res.json({ success: false, message: "Something went wrong", error: error.message });
+        }
+    },
+    addItemToCancelList: async (req, res) => {
+        try {
+            const { cancelledItem, email } = req.body;
+            const cancelling = new CancelledProductList({ email, productId: cancelledItem._id, date: getFormattedDate() })
+            const cancelled = await cancelling.save();
+            if (!cancelled) {
+                return res.json({ message: "something went wrong", success: false })
+            }
+            res.json({ success: true, message: "remove the item from the list" })
+        } catch (error) {
+            res.json({ success: false, message: "something went wrong" })
+        }
+    },
+    removeItemFromCancelList: async (req, res) => {
+        try {
+            const { productId, email } = req.body;
+
+            // Find and delete the item by productId and email
+            const removedItem = await CancelledProductList.findOneAndDelete({
+                email: email,
+                productId: productId
+            });
+
+            // Check if the item was found and deleted
+            if (!removedItem) {
+                return res.json({ success: false, message: "Item not found or already removed" });
+            }
+
+            res.json({ success: true, message: "Item successfully removed from cancel list" });
+        } catch (error) {
+            // Error handling
+            res.json({ success: false, message: "Something went wrong", error });
+        }
+    },
+    // returun product list
+    addReturnedProduct: async (req, res) => {
+        try {
+            const { email, productId } = req.body;
+
+            // Create a new returned product entry
+            const returnedProduct = new ReturnedProductList({
+                email,
+                productId,
+                date: getFormattedDate() // assuming you already have a getFormattedDate function
+            });
+
+            // Save the returned product to the database
+            const savedProduct = await returnedProduct.save();
+
+            if (!savedProduct) {
+                return res.json({ success: false, message: "Failed to add returned product" });
+            }
+
+            res.json({ success: true, message: "Product added to returned list", data: savedProduct });
+        } catch (error) {
+            res.json({ success: false, message: "Something went wrong", error: error.message });
+        }
+    },
+    removeReturnedProduct: async (req, res) => {
+        try {
+            const { email, productId } = req.body;
+
+            // Find and delete the returned product by email and productId
+            const removedProduct = await ReturnedProductList.findOneAndDelete({
+                email: email,
+                productId: productId
+            });
+
+            if (!removedProduct) {
+                return res.json({ success: false, message: "Product not found or already removed" });
+            }
+
+            res.json({ success: true, message: "Product removed from returned list" });
+        } catch (error) {
+            res.json({ success: false, message: "Something went wrong", error: error.message });
+        }
+    },
+    getReturnedList: async (req, res) => {
+        try {
+            const { email } = req.params;
+
+            // Find all returned products for the given email
+            const returnedProducts = await ReturnedProductList.find({ email: email });
+
+
+            // Step 2: Extract product IDs from the cancelled items
+            const productIds = returnedProducts.map(item => item.productId);
+
+            // Step 3: Find the products that match the productIds from the CancelledProductList
+            const matchedProducts = await Product.find({ _id: { $in: productIds } });
+
+            res.json({ success: true, message: "Returned products retrieved successfully", data: matchedProducts });
+        } catch (error) {
+            res.json({ success: false, message: "Something went wrong", error: error.message });
         }
     }
 }
